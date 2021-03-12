@@ -1,0 +1,49 @@
+.wrapper-register-user{
+    margin-top: 50px;
+    background-color: darkkhaki;
+}
+
+.card-display{
+    display: flex;
+    flex-direction: column;
+}
+
+#first-name-input{
+    font-size: 2rem;
+}
+
+#last-name-input{
+    font-size: 2rem;
+}
+
+#email-input{
+    font-size: 2rem;
+}
+
+#address-input{
+    font-size: 2rem;
+}
+
+#contact-number-input{
+    font-size: 2rem;
+}
+
+#password-input{
+    font-size: 2rem;
+}
+
+#city-input{
+    font-size: 2rem;
+}
+
+#state-input{
+    font-size: 2rem;
+}
+
+#zipcode-input{
+    font-size: 2rem;
+}
+
+.margin-left1-20px{
+    margin-left: 20px;
+}

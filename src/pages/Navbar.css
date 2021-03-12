@@ -1,0 +1,19 @@
+.nav-bar{
+    display: flex;
+    justify-content: flex-end;
+    background-color: #7E685A;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.nav-bar-item{
+    padding: 5px;    
+}
+
+.nav-bar-button{
+    background-color: #AFD275;
+    cursor: pointer;
+    font-size: 18px;
+    border: 2px solid #AFD275;
+    border-radius: 12px;
+}

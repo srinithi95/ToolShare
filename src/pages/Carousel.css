@@ -1,0 +1,138 @@
+.nav-bar1{
+    display: flex;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding: 20px;
+}
+
+.bottom-border{
+    border-width: 10px;
+    border-color: black;
+    margin-bottom: 50px;
+}
+
+.flex-wrapper-row{
+    display: flex;
+    flex-direction: row;
+}
+
+.width-500px{
+    width: 250px;
+}
+
+.button-wrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    flex-grow: 1;
+}
+
+.button-inside-wrapper{
+    flex-grow: 1;
+}
+
+.align-center12{
+    align-content: center;
+    justify-content: center;
+}
+
+.text-align-centre{
+    text-align: center;
+}
+
+.cursor-pointer{
+    cursor: pointer;
+}
+
+.imageframe{
+    height: 150px;
+    width: 200px;
+}
+
+.postingframe{
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+}
+
+.width500px{
+    width: 800px;
+}
+
+/* active is when clicked */
+/* hover is mouseover */
+#stories-tab:hover{
+    background-color: burlywood;
+}
+
+#tools-tab:hover{
+    background-color: burlywood;
+}
+
+.brown-border{
+    /* border-radius: 2px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: burlywood; */
+    border: 2px solid burlywood;
+    border-radius: 12px;
+}
+
+.wrapping{
+    display: flex;
+    justify-content: space-evenly;
+    background-color: darkorange;
+    margin-top: 10px;
+    height: 300px;
+    align-items: center;
+}
+
+.left-arrow{
+    background-color: chartreuse;
+    flex-grow: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.left-arrow-wrap{
+    height: auto;
+    width: auto;
+}
+
+.image-holder{
+    background-color: darkslateblue;
+    flex-grow: 4;
+    display: flex;
+    align-items: center;
+    justify-content: center;  
+}
+
+.image-wrap{
+    height: 300px;
+    width: 300px;
+}
+
+.right-arrow{
+    background-color: darkslategrey;
+    flex-grow: 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.right-arrow-wrap{
+    height: auto;
+    width: auto;
+}
+
+.glyphicon {
+    font-size: 20px;
+}

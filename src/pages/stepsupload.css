@@ -1,0 +1,15 @@
+.body-container{
+    display: flex;
+    flex-direction: row;
+    padding: 5px;
+}
+
+.maindiv-border{
+    border-style: solid;
+    border-color: #7E685A;
+    border-radius: 12px;
+}
+
+.maindiv-margin{
+    margin-left: 10px;
+}
