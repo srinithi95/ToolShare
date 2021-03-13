@@ -1,11 +1,6 @@
-const mysql = require ('mysql');
+const db=require('./db.js')
 
-const con = mysql.createPool({
-    host:"127.0.0.1",
-    user:"root",
-    password:"",
-    database:"tool-share"
-})
+
 
 const userToolDetails = (req, res) => {
     console.log("user tool details server");
@@ -15,7 +10,7 @@ const userToolDetails = (req, res) => {
     console.log("----------", toolName, userId);
 
     let query = `select t.*, ti.image_url from tool t, tool_images ti where t.tool_id=ti.tool_id and tool_name=? and user_id=?;`
-    con.query(query, [toolName, userId], (error, result) => {
+    db.con.query(query, [toolName, userId], (error, result) => {
         if(error)
             console.log(error)
         else{

@@ -1,13 +1,9 @@
-const mysql = require ('mysql');
+const db=require('./db.js')
+
 const multer = require('multer');
 //const upload = multer({dest: '/server/uploads'});
 
-const con = mysql.createPool({
-    host:"127.0.0.1",
-    user:"root",
-    password:"",
-    database:"tool-share"
-})
+
 
 const postStory = (req, res) => {
     // con.connect(function(err){
@@ -41,7 +37,7 @@ const postStory = (req, res) => {
     let tag23="";
 
     let query = `insert into story (story_id, user_id, description, posting_title) values (?, ?, ?, ?);`
-    con.query(query,[id, userId, description, postingTitle], (error, result) => {
+    db.con.query(query,[id, userId, description, postingTitle], (error, result) => {
         console.log(error);
     });
 
@@ -52,7 +48,7 @@ const postStory = (req, res) => {
     let tool5 = tools[4];
 
     let query1 = `insert into story_tools (story_id, tool1, tool2, tool3, tool4, tool5) values (?, ?, ?, ?, ?, ?);` 
-    con.query(query1, [id, tool1, tool2, tool3, tool4, tool5], (error, result) => {
+    db.con.query(query1, [id, tool1, tool2, tool3, tool4, tool5], (error, result) => {
         console.log(error);
     });
 
@@ -63,7 +59,7 @@ const postStory = (req, res) => {
     let material5 = materials[4];
 
     let query2 = `insert into story_materials (story_id, material1, material2, material3, material4, material5) values (?, ?, ?, ?, ?, ?);`
-    con.query(query2, [id, material1, material2, material3, material4, material5], (error, result) => {
+    db.con.query(query2, [id, material1, material2, material3, material4, material5], (error, result) => {
         console.log(error);
     });
 
@@ -72,7 +68,7 @@ const postStory = (req, res) => {
     let category3 = category[2];
 
     let query3 = `insert into story_category (story_id, category1, category2, category3) values (?, ?, ?, ?);`
-    con.query(query3, [id, category1, category2, category3], (error, result) => {
+    db.con.query(query3, [id, category1, category2, category3], (error, result) => {
         console.log(error);
     });
 
@@ -81,7 +77,7 @@ const postStory = (req, res) => {
     let tag3 = tag[2];
 
     let query4 = `insert into story_tag (story_id, tag1, tag2, tag3) values (?, ?, ?, ?);`
-    con.query(query4, [id, tag1, tag2, tag3], (error, result) => {
+    db.con.query(query4, [id, tag1, tag2, tag3], (error, result) => {
         console.log(error);
     });
 

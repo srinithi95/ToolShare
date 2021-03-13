@@ -1,11 +1,5 @@
-const mysql = require ('mysql');
+const db=require('./db.js')
 
-const con = mysql.createPool({
-    host:"127.0.0.1",
-    user:"root",
-    password:"",
-    database:"tool-share"
-})
 
 const getSteps = (req, res) => {
     console.log("get steps server", req.body);
@@ -13,7 +7,7 @@ const getSteps = (req, res) => {
     let story_id = req.body.storyId.story_id
     
     let query = `select text from story_steps where story_id = ?`;
-    con.query(query, [story_id], (error, result, field) => {
+    db.concon.query(query, [story_id], (error, result, field) => {
         if(error)
             console.log(error)
         else{

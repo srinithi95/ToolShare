@@ -1,11 +1,12 @@
-const mysql = require ('mysql');
 
+const db=require('./db.js')
+/*
 const con = mysql.createPool({
     host:"127.0.0.1",
     user:"root",
-    password:"",
+    password:"Saibabaisgr8*",
     database:"tool-share"
-})
+}) */
 
 const Login = (req, res) => {
     // con.connect(function(err){
@@ -21,7 +22,7 @@ const Login = (req, res) => {
     
     let query = `select users_id, first_name, last_name, email, address, city, state, zipcode, contact_number from users where email=? and password=?`;
 
-    con.query(query, [email, password], (error, result, field)=>{
+    db.con.query(query, [email, password], (error, result, field)=>{
         if(error){
             console.log('here if', error);
             res.send(`error in selecting user from users table ${error}`);

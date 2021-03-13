@@ -1,11 +1,7 @@
-const mysql = require ('mysql');
+const db=require('./db.js')
 
-const con = mysql.createPool({
-    host:"127.0.0.1",
-    user:"root",
-    password:"",
-    database:"tool-share"
-})
+
+
 
 const updateStory = (req, res) => {
     console.log("updateStory server, storyData is", req.body.storyData);
@@ -19,7 +15,7 @@ const updateStory = (req, res) => {
 
     // update story set description='xy', tool='xy', material='xy', category='xy', tag='xy', posting_title='xy' where story_id='1585530807285';
     let query = `update story set description=?, tool=?, material=?, category=?, tag=?, posting_title=? where story_id=?;`
-    con.query(query,[description, tools, materials, category, tag, postingTitle, storyId], (error, result) => {
+    db.con.query(query,[description, tools, materials, category, tag, postingTitle, storyId], (error, result) => {
         console.log(error);
         res.send({successful:true});
     });

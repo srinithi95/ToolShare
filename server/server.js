@@ -19,7 +19,7 @@ app.use(express.json());
 const multer = require("multer");
 const multer1 = require("multer");
 const mysql = require ('mysql');
-
+const db=require('./db.js')
 const toolReservation = require("./toolreservation");
 const getReservations = require("./getReservations");
 const getToolReservationDates = require("./getToolReservationDates");
@@ -89,12 +89,7 @@ app.post("/api/postStoryImage", upload.single("image-file"), function(req, res, 
   var storyId = req.body.storyIdInput;
   console.log(storyId);
 
-  const con = mysql.createConnection({
-    host:"127.0.0.1",
-    user:"root",
-    password:"",
-    database:"tool-share"
-  })
+  
 
   let newPath = "../images/" + fileName;
   console.log("new path is", newPath);
@@ -104,7 +99,7 @@ app.post("/api/postStoryImage", upload.single("image-file"), function(req, res, 
   // ..\src\images\wwww.png - coming from multer
   // ../images/wwww.png - need to store in db
 
-  con.query(query,[storyId, newPath], (error, result) => {
+  db.con.query(query,[storyId, newPath], (error, result) => {
     console.log(error);
   });
 
@@ -120,18 +115,12 @@ app.post("/api/postToolImage", upload.single("image-file"), function(req, res, n
   var toolId = req.body.toolIdInput;
   console.log("tool id is:",toolId)
 
-  const con = mysql.createConnection({
-    host:"127.0.0.1",
-    user:"root",
-    password:"",
-    database:"tool-share"
-  })
-
+  
   let newPath = "../images/" + fileName;
   console.log("new path is", newPath);
   let query = `insert into tool_images (tool_id, image_url) values (?, ?);`
 
-  con.query(query,[toolId, newPath], (error, result) => {
+  db.con.query(query,[toolId, newPath], (error, result) => {
     console.log(error);
   });
 
@@ -152,13 +141,14 @@ app.post("/api/postStepsImage", upload.single("step-image"), function (req, res,
   console.log("----------", fileName, stepNumber, stepTitle, stepDescription);
 
   // var storyId 
+  /*
 
   const con = mysql.createConnection({
     host:"127.0.0.1",
     user:"root",
     password:"",
     database:"tool-share"
-  })
+  }) */
 
   // res.send(`You have uploaded this image: <a href="./stepsupload">Upload another step</a>`);
 })

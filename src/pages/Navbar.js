@@ -15,21 +15,7 @@ import Carousel from "./Carousel.js";
 export const Navbar = () => {
   return (
     <div className="nav-bar">
-      <div className="nav-bar-item">
-        <NavLink to="/" className="nav-bar-button">
-          All Tools
-        </NavLink>
-      </div>
-      <div className="nav-bar-item">
-        <NavLink to="/" className="nav-bar-button">
-          About Us
-        </NavLink>
-      </div>
-      <div className="nav-bar-item">
-        <NavLink to="/" className="nav-bar-button">
-          Contact
-        </NavLink>
-      </div>
+      
       <div className="nav-bar-item">
         <NavLink to="/shareyourstory" className="nav-bar-button">
           Share your story

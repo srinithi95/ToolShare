@@ -1,7 +1,4 @@
 import React from "react";
-import {
-  NavLink
-} from "react-router-dom";
 import { connect } from "react-redux";
 
 const ToolImageUpload = ({toolId}) => {
@@ -17,7 +14,7 @@ const ToolImageUpload = ({toolId}) => {
       <div>
         <form
           id="image_upload_form"
-          action="/postToolImage"
+          action="api/postToolImage"
           method="post"
           enctype="multipart/form-data"
           onSubmit={handleSubmitImage}

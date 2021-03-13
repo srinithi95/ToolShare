@@ -27,7 +27,7 @@ const LandingPage = ({ dispatch, isLoggedIn, firstName, userId }) => {
   const [toolArray, setToolArray] = React.useState([]);
   const [searchStory, setSearchStory] = React.useState();
   const [searchTool, setSearchTool] = React.useState();
-  const [searchToolCity, setSearchToolCity] = React.useState("");
+  const [searchToolCity, setSearchToolCity] = React.useState();
   const [storyActive, setStoryActive] = React.useState(true);
   const [toolActive, setToolActive] = React.useState(false);
   const [mainStoryArray, setMainStoryArray] = React.useState([]);
@@ -93,7 +93,7 @@ const LandingPage = ({ dispatch, isLoggedIn, firstName, userId }) => {
       const res = response.data;
       console.log("response", response);
       if (res === "not registered user") {
-        alert("You are not logged in");
+        //alert("You are not logged in");
       } else {
         let userId = res[0].users_id;
         console.log(userId);
@@ -132,7 +132,7 @@ const LandingPage = ({ dispatch, isLoggedIn, firstName, userId }) => {
     //should be post request
     const searchData = {
       searchTool,
-      searchToolCity,
+      
     };
 
     axios
@@ -166,7 +166,8 @@ const LandingPage = ({ dispatch, isLoggedIn, firstName, userId }) => {
   const handleLogout = () => {
     document.cookie = `email=""`;
     document.cookie = `password=""`;
-    
+    dispatch(setIsLoggedIn(false));
+     
   };
 
   const handleStorySave = (s) => {
@@ -333,6 +334,8 @@ const LandingPage = ({ dispatch, isLoggedIn, firstName, userId }) => {
                 <div>
                   <input
                     type="text"
+                    name="searchtext" 
+                    value={searchStory}            
                     onChange={(e) => {
                       setSearchStory(e.target.value);
                     }}
@@ -437,6 +440,7 @@ const LandingPage = ({ dispatch, isLoggedIn, firstName, userId }) => {
                   <b> Tools </b>
                 </div>
               </div>
+              
 
               {/* Search bar in tools */}
               <div className="align-centre1 inside-wrapper">
@@ -444,6 +448,7 @@ const LandingPage = ({ dispatch, isLoggedIn, firstName, userId }) => {
                   Toolname
                   <input
                     type="text"
+                    value={searchTool}
                     onChange={(e) => {
                       setSearchTool(e.target.value);
                     }}
@@ -454,6 +459,7 @@ const LandingPage = ({ dispatch, isLoggedIn, firstName, userId }) => {
                   City
                   <input
                     type="text"
+                    value={searchToolCity}
                     onChange={(e) => {
                       setSearchToolCity(e.target.value);
                     }}
@@ -466,9 +472,7 @@ const LandingPage = ({ dispatch, isLoggedIn, firstName, userId }) => {
               </div>
 
               {/* Displaying Map */}
-              <div className="map-container margin-left-top-30px">
-                <ToolMap coordinates={toolCoordinatesArray} />
-              </div>
+              
 
               {/* Display all tools using array */}
               <div>
@@ -488,7 +492,7 @@ const LandingPage = ({ dispatch, isLoggedIn, firstName, userId }) => {
                           <div>
                             <Link
                               to={{
-                                pathname: "/bookingpage",
+                                pathname: "/BookingPage",
                                 state: {
                                   toolname: t.tool_name,
                                   toolId: t.tool_id,
@@ -538,6 +542,9 @@ const LandingPage = ({ dispatch, isLoggedIn, firstName, userId }) => {
                   ))}
                 </ol>
               </div>
+              <div className="map-container margin-left-top-30px">
+                <ToolMap coordinates={toolCoordinatesArray} />
+              </div>
             </div>
           )}
         </div>               
@@ -549,7 +556,7 @@ const LandingPage = ({ dispatch, isLoggedIn, firstName, userId }) => {
   return (
     <Router>
       <Switch>
-        <Route path="/bookingpage">
+        <Route path="/BookingPage">
           <BookingPage />
         </Route>
         <Route path="/">

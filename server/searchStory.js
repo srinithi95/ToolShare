@@ -1,11 +1,6 @@
-const mysql = require ('mysql');
+const db=require('./db.js')
 
-const con = mysql.createPool({
-    host:"127.0.0.1",
-    user:"root",
-    password:"",
-    database:"tool-share"
-})
+
 
 const searchStory = (req, res) => {
     // con.connect(function(err){
@@ -22,7 +17,7 @@ const searchStory = (req, res) => {
 // WHERE CustomerName LIKE 'a%' OR ContactName LIKE 'a%';
     let query = `select * from story where posting_title LIKE ? OR tag LIKE ?;`
 
-    con.query(query, [searchTerm, searchTerm], (error, result) => {
+    db.con.query(query, [searchTerm, searchTerm], (error, result) => {
         if(error)
             console.log(error)
         else{

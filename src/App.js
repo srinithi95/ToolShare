@@ -15,8 +15,6 @@ import {
 } from "react-router-dom";
 import RegisterUsers from "./pages/RegisterUsers";
 import Login from "./pages/Login";
-import { setIsLoggedIn } from "./redux/actions/userActions";
-import { useStore } from "react-redux";
 import ImageUpload from "./pages/ImageUpload";
 import StepsUpload from "./pages/StepsUpload";
 import ToolImageUpload from "./pages/ToolImageUpload";
@@ -26,21 +24,7 @@ export function App({ isLoggedIn }) {
   return (
     <div>
       <div className="nav-bar">
-        <div className="nav-bar-item">
-          <NavLink to="/" className="nav-bar-button">
-            All Tools
-          </NavLink>
-        </div>
-        <div className="nav-bar-item">
-          <NavLink to="/" className="nav-bar-button">
-            About Us
-          </NavLink>
-        </div>
-        <div className="nav-bar-item">
-          <NavLink to="/" className="nav-bar-button">
-            Contact
-          </NavLink>
-        </div>
+        
         {isLoggedIn && (
           <div className="nav-bar-item">
             <NavLink to="/shareyourstory" className="nav-bar-button">
@@ -56,11 +40,6 @@ export function App({ isLoggedIn }) {
           </div>
         )}
 
-        {/* <div className="nav-bar-item">
-          <NavLink to="/registerusers" className="nav-bar-button">
-            Register User
-          </NavLink>
-        // </div> */}
         {!isLoggedIn && (
           <div className="nav-bar-item">
             <NavLink to="/login" className="nav-bar-button">

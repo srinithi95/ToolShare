@@ -1,11 +1,7 @@
-const mysql = require ('mysql');
+const db=require('./db.js')
 
-const con = mysql.createPool({
-    host:"127.0.0.1",
-    user:"root",
-    password:"",
-    database:"tool-share"
-})
+
+
 
 const postTool = (req, res) => {
     // con.connect(function(err){
@@ -35,11 +31,11 @@ const postTool = (req, res) => {
     let id = Date.now();
 
     let query = `insert into tool (tool_id, user_id, tool_name, price, description, make, model_name, suggested_project, tool_condition) values (?, ?, ?, ?, ?, ?, ?, ?, ?);`
-    con.query(query, [id, userId, toolName, price, description, make, modelName, suggestedProject, condition])
+    db.con.query(query, [id, userId, toolName, price, description, make, modelName, suggestedProject, condition])
     console.log("in post tool", req.body.toolData);
 
     let query1 = `insert into tool_contact_details (tool_id, contact_name, email, address, city, state, zipcode, contact_number) values (?, ?, ?, ?, ?, ?, ?, ?);`
-    con.query(query1, [id,contactName, email, address, city, state, zipcode, contactNumber]);
+    db.con.query(query1, [id,contactName, email, address, city, state, zipcode, contactNumber]);
     // , email, contact_number, contact_name, address, city, state, zipcode,
     // email, contactNumber, contactName, address, city, state, zipcode, 
     res.send({successful:true, tool_id: id});

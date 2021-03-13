@@ -32,7 +32,7 @@ const Carousel = ({ dispatch, isLoggedIn, firstName, userId }) => {
   console.log("in carousel, logged in is", isLoggedIn);
   const [storyArray, setStoryArray] = React.useState([]);
   const [toolArray, setToolArray] = React.useState([]);
-  const [searchStory, setSearchStory] = React.useState("");
+  const [searchStory, setSearchStory] = React.useState(" ");
   const [searchTool, setSearchTool] = React.useState("");
   const [storyActive, setStoryActive] = React.useState(true);
   const [toolActive, setToolActive] = React.useState(false);
@@ -70,7 +70,7 @@ const Carousel = ({ dispatch, isLoggedIn, firstName, userId }) => {
       const res = response.data;
       console.log("response", response);
       if (res === "not registered user") {
-        alert("You are not logged in");
+        //alert("You are not logged in");
       } else {
         let userId = res[0].users_id;
         console.log(userId);

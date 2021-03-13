@@ -1,11 +1,7 @@
-const mysql = require ('mysql');
+const db=require('./db.js')
 
-const con = mysql.createConnection({
-    host:"127.0.0.1",
-    user:"root",
-    password:"",
-    database:"tool-share"
-})
+
+
 
 const registerUser = (req, res) => {
     // console.log("IN teh poststriy")
@@ -42,7 +38,7 @@ const registerUser = (req, res) => {
     //     }
     // });
 
-    con.query(query, [firstName, lastName, email, address, city, state, zipcode, contactNumber, password]);
+    db.con.query(query, [firstName, lastName, email, address, city, state, zipcode, contactNumber, password]);
     res.send("Data received");
 }
 
