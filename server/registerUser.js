@@ -4,16 +4,7 @@ const db=require('./db.js')
 
 
 const registerUser = (req, res) => {
-    // console.log("IN teh poststriy")
-    con.connect(function(err){
-        if(err) throw err;
-        console.log("Connected !!")
-    });
-
-    console.log("registerUser server");
-    // const {projectTitle} = req.body.storyData;
-    // console.log(projectTitle);
-    console.log(req.body.userData);
+ 
 
     let firstName = req.body.userData.firstName;
     let lastName = req.body.userData.lastName;
