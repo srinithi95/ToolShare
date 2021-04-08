@@ -129,7 +129,7 @@ const Carousel = ({ dispatch, isLoggedIn, firstName, userId }) => {
             <Switch>
               <Route path="/savestory" component={SaveStory} />
               <Route path="/userstory" component={UserStory} />
-              <Route path="/landingpage" component={LandingPage} />
+      { /* <Route path="/landingpage" component={LandingPage} /> */ }
               <Route path="/userreservations" component={UserReservations} />
             </Switch>
           </div>

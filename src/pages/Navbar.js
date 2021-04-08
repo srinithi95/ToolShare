@@ -9,7 +9,6 @@ import {
 } from "react-router-dom";
 import ShareYourStory from './ShareYourStory.jsx';
 import RegisterUsers from './RegisterUsers.jsx';
-import App from "../App";
 import Carousel from "./Carousel.js";
 
 export const Navbar = () => {

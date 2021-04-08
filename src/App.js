@@ -4,8 +4,6 @@ import { Navbar } from "./pages/Navbar";
 import Carousel from "./pages/Carousel";
 import ShareYourStory from "./pages/ShareYourStory";
 import ToolPosting from "./pages/toolPosting";
-// import { RegisterUsers } from "./pages/RegisterUsers";
-//import userReducer from './redux/reducers/userReducer';
 import { connect } from "react-redux";
 import {
   BrowserRouter as Router,
@@ -13,18 +11,27 @@ import {
   Route,
   NavLink
 } from "react-router-dom";
+import {
+  setIsLoggedIn,
+} from "./redux/actions/userActions";
 import RegisterUsers from "./pages/RegisterUsers";
 import Login from "./pages/Login";
 import ImageUpload from "./pages/ImageUpload";
 import StepsUpload from "./pages/StepsUpload";
 import ToolImageUpload from "./pages/ToolImageUpload";
+import LandingPage from "./pages/LandingPage";
 
-export function App({ isLoggedIn }) {
+export function App({ dispatch, isLoggedIn }) {
   console.log("in app", isLoggedIn);
+  const handleLogout = () => {
+    document.cookie = `email=""`;
+    document.cookie = `password=""`;
+    dispatch(setIsLoggedIn(false));
+     
+  };
   return (
     <div>
-      <div className="nav-bar">
-        
+      <div className="nav-bar">      
         {isLoggedIn && (
           <div className="nav-bar-item">
             <NavLink to="/shareyourstory" className="nav-bar-button">
@@ -33,15 +40,33 @@ export function App({ isLoggedIn }) {
           </div>
         )}
         {isLoggedIn && (
+          <>
           <div className="nav-bar-item">
             <NavLink to="/posttool" className="nav-bar-button">
               Post a Tool
             </NavLink>
           </div>
+          <div className="nav-bar-item">
+          <NavLink to="/savestory" className="nav-bar-button">
+            My Saved Story
+          </NavLink>
+        </div>
+        <div className="nav-bar-item">
+          <NavLink to="/userstory" className="nav-bar-button">
+            My Stories
+          </NavLink>
+        </div>
+        <div className="nav-bar-item">
+          <NavLink to="/userreservations" className="nav-bar-button">
+            My Reservations
+          </NavLink>
+        </div>
+        <button onClick={handleLogout}>Logout</button>
+        </>
         )}
 
         {!isLoggedIn && (
-          <div className="nav-bar-item">
+          <div className="nav-bar-item"> 
             <NavLink to="/login" className="nav-bar-button">
               Login
             </NavLink>
@@ -57,7 +82,7 @@ export function App({ isLoggedIn }) {
           <Route path="/imageupload" component={ImageUpload} />
           <Route path="/stepsupload" component={StepsUpload} />
           <Route path="/toolimageupload" component={ToolImageUpload} />
-          <Route path="/" component={Carousel} />
+          <Route path="/" component={LandingPage} />
         </Switch>
       </div>
     </div>

@@ -21,6 +21,7 @@ import BookingPage from "./BookingPage";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import ToolMap from "./ToolMap";
 
+
 const LandingPage = ({ dispatch, isLoggedIn, firstName, userId }) => {
   console.log("in landing page");
   const [storyArray, setStoryArray] = React.useState([]);
@@ -63,18 +64,17 @@ const LandingPage = ({ dispatch, isLoggedIn, firstName, userId }) => {
         t.zipcode +
         "&key=AIzaSyALPCrM1o0G3wqbTLToT2KWvsExLao5vhE";
       console.log("url is", url);
-      axios.get(url).then((response) => {
-        console.log(
-          "**************",
-        response.data.results[0].geometry.location
-        );
-        toolCoordinatesArray.push(response.data.results[0].geometry.location);
+      axios.get(url)
+      .then((response) => {
+        console.log(response)
+        //toolCoordinatesArray.push(response.data.results[0].geometry.location);
       });
     });
     console.log("&&&&&&&&&&&&&&&", toolCoordinatesArray);
   }, [toolArray]);
 
-  if (!isLoggedIn) {
+  if (!isLoggedIn && document.cookie.email!=null ) {
+    console.log("the cookie is", document.cookie.email)
     let cookieData = document.cookie.split(";");
     let eqPos1 = cookieData[0].indexOf("=") + 1;
    let email = cookieData[0].substr(eqPos1, cookieData[0].length);
@@ -88,10 +88,12 @@ const LandingPage = ({ dispatch, isLoggedIn, firstName, userId }) => {
       password,
     };
     console.log("logindata in carousel", authData);
+    console.log("Login data inside landing page", isLoggedIn)
 
-    axios.post("/api/auth", { authData }).then((response) => {
+    axios.post("/api/auth", { authData })
+    .then((response) => {
       const res = response.data;
-      console.log("response", response);
+      console.log("response for auth srinithi", response);
       if (res === "not registered user") {
         //alert("You are not logged in");
       } else {
@@ -109,8 +111,11 @@ const LandingPage = ({ dispatch, isLoggedIn, firstName, userId }) => {
         dispatch(setCity(res[0].city));
         dispatch(setState(res[0].state));
         dispatch(setZipCode(res[0].zipcode));
+        
       }
-    });
+      
+    })
+    .then(console.log("Login data inside landing page 2", isLoggedIn));
   }
 
   const handleSearchStory = () => {
@@ -217,25 +222,6 @@ const LandingPage = ({ dispatch, isLoggedIn, firstName, userId }) => {
   function Try() {
     return (
       <div id="xyz" className="container wrapper">
-        {/* part to tell that the user is logged in or not */}
-        {!isLoggedIn && (
-          <div className="inside-wrapper">
-            Please log in to post story or tool.
-          </div>
-        )}
-
-        {isLoggedIn && (
-          <div>
-            <div className="inside-wrapper">
-              You are loggedIn as: {firstName}, {userId}
-            </div>
-            <div>
-              {" "}
-              <button onClick={handleLogout}> Logout </button>
-            </div>
-          </div>
-        )}
-
         {/* Display categories */}
         <div className="align-centre1 inside-wrapper">
           <div

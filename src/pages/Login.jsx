@@ -124,7 +124,9 @@ export const Login = ({dispatch, isLoggedIn }) => {
           dispatch(setCity(res[0].city));
           dispatch(setState(res[0].state));
           dispatch(setZipCode(res[0].zipcode));
-          document.cookie = `email=${email}`;
+          //var expires = (new Date(Date.now()+ 86400*1000)).toUTCString();
+          var expires=100
+          document.cookie = `email=${email} ; expires=${expires}`;
           document.cookie = `password=${password}`;
           // alert("Welcome user:", userId)
         }
