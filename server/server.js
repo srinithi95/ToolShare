@@ -122,9 +122,10 @@ app.post("/api/postToolImage", upload.single("image-file"), function(req, res, n
 
   db.con.query(query,[toolId, newPath], (error, result) => {
     console.log(error);
+    res.send(`ok`);
   });
 
-  // res.send(`ok`);
+  
 });
 
 
@@ -184,16 +185,6 @@ app.post("/api/gettoolreservationdates", getToolReservationDates);
 //       status: "Error",
 //       message: "Please enter a valid endpoint"
 //     });
-//   }
-// });
 
-// app.get("/*", (req, res) => {
-//   if (res.status(404)) {
-//     res.send({
-//       status: "Error",
-//       message: "Please enter a valid endpoint"
-//     });
-//   }
-// });
 
 app.listen(8080,()=>console.log("App Running on Port 8080"));

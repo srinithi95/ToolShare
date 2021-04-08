@@ -21,7 +21,7 @@ const ImageUpload = ({storyId}) => {
       <div>
         <form
           id="image_upload_form"
-          action="/postStoryImage"
+          action="/api/postStoryImage"
           method="post"
           enctype="multipart/form-data"
           onSubmit={handleSubmitImage}

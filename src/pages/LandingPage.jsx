@@ -66,7 +66,7 @@ const LandingPage = ({ dispatch, isLoggedIn, firstName, userId }) => {
       axios.get(url).then((response) => {
         console.log(
           "**************",
-          response.data.results[0].geometry.location
+        response.data.results[0].geometry.location
         );
         toolCoordinatesArray.push(response.data.results[0].geometry.location);
       });

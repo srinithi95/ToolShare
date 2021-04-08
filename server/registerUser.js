@@ -1,11 +1,6 @@
 const db=require('./db.js')
 
-
-
-
 const registerUser = (req, res) => {
- 
-
     let firstName = req.body.userData.firstName;
     let lastName = req.body.userData.lastName;
     let email = req.body.userData.email;
@@ -19,7 +14,9 @@ const registerUser = (req, res) => {
     let userId = Math.round(Math.random() * 42);
     console.log("userId", userId);
 
-    let query = `insert into users (first_name, last_name, email, address, city, state, zipcode, contact_number, password) values (?, ?, ?, ?, ?, ?, ?, ?, ?);`
+    let query = `insert into users 
+    (first_name, last_name, email, address, city, state, zipcode, contact_number, password) 
+    values (?, ?, ?, ?, ?, ?, ?, ?, ?);`
     // con.query(query, (error, rows, colfail) => {
     //     if(error){
     //         return `this is error ${error}`

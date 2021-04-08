@@ -14,7 +14,7 @@ const ToolImageUpload = ({toolId}) => {
       <div>
         <form
           id="image_upload_form"
-          action="api/postToolImage"
+          action="/api/postToolImage"
           method="post"
           enctype="multipart/form-data"
           onSubmit={handleSubmitImage}
