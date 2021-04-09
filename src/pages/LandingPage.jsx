@@ -485,10 +485,10 @@ const LandingPage = ({ dispatch, isLoggedIn, firstName, userId }) => {
                                 },
                               }}
                             >
-                              <div className="round-border-button width-50px">
+                              {isLoggedIn && (<div className="round-border-button width-50px">
                                 {" "}
                                 Borrow{" "}
-                              </div>
+                              </div>)}
                             </Link>
                           </div>
                         </div>
