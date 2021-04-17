@@ -38,8 +38,7 @@ const Login = (req, res) => {
             }
         }
     });
-    // res.send("Data received");
-    // con.end();
+  
 }
 
 module.exports = Login;

@@ -7,7 +7,8 @@ const SaveStory = ({ userId }) => {
   const [storyArray, setStoryArray] = React.useState([]);
 
   React.useEffect(() => {
-    console.log("save story useEffect");
+    console.log("save story useEffect", userId);
+
     const saveData = {
       userId
     };
@@ -20,7 +21,7 @@ const SaveStory = ({ userId }) => {
   }, []);
 
   return (
-    <div>
+    <div className="container">
       <ol>
         {storyArray.map(s => (
           <div className="postingframe">

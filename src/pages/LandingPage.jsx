@@ -201,7 +201,7 @@ const LandingPage = ({ dispatch, isLoggedIn, firstName, userId }) => {
       document.getElementById("xyz")
     );
   };
-
+ 
   const changeCategory = (selectedCategory) => {
     console.log("in change Category", selectedCategory);
     console.log("storyarray ----", storyArray);

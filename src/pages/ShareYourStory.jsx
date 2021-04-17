@@ -10,6 +10,12 @@ import {
 import ImageUpload from "./ImageUpload";
 import { setStoryId } from "../redux/actions/shareYourStoryActions";
 import { connect } from "react-redux";
+import Paper from '@material-ui/core/Paper';
+import Dropdown from 'react-dropdown';
+import 'react-dropdown/style.css';
+import Draggable from 'react-draggable'; // The default
+import {DraggableCore} from 'react-draggable'; // <DraggableCore>
+
 
 const ShareYourStory = ({ dispatch, userId }) => {
   const [postingTitle, setPostingTitle] = React.useState("");
@@ -36,6 +42,10 @@ const ShareYourStory = ({ dispatch, userId }) => {
   var [toolCount, setToolCount] = React.useState(3);
   var [materialCount, setMaterialCount] = React.useState(3);
   var [tagCount, setTagCount] = React.useState(2);
+  const options = [
+    'Easy', 'Medium', 'Hard'
+  ];
+  
   
   const handleSubmit = () => {
     console.log("In handle submit");
@@ -105,6 +115,25 @@ const ShareYourStory = ({ dispatch, userId }) => {
     setToolCount(toolCount);
     }
   }
+  const addSteps=()=>{
+    const maindiv=document.getElementById("story-steps")
+    const tempdiv=document.createElement("div");
+    const input=document.createElement("input");
+    const newline=document.createElement("br")
+    input.type="text";
+    input.className="description-box";
+    const file=document.createElement("input")
+    file.type="file"
+   
+    tempdiv.appendChild(newline)
+    tempdiv.appendChild(input)
+    tempdiv.appendChild(file)
+    
+    
+
+    maindiv.appendChild(tempdiv)
+
+  }
 
   const addMaterial = () => {
     if(materialCount == 6){
@@ -155,14 +184,16 @@ const ShareYourStory = ({ dispatch, userId }) => {
   }
 
   return (
+   
     <div className="wrapper container">
+      <b className="align-left"> Post a Story </b>{" "}
       <div className="align-centre1 inside-wrapper">
         <div className="font-size-20">
-          <b> Post your story !!! </b>{" "}
         </div>
       </div>
+      <Paper elevation={4}>
       <div className="inside-wrapper">
-        <div className="width-200px"> <strong>Posting title </strong> <span className="red-text">*</span></div>
+        <div className="width-200px"> <strong>Story Title </strong> <span className="red-text">*</span></div>
         <div>
           <input
             type="text"
@@ -185,7 +216,10 @@ const ShareYourStory = ({ dispatch, userId }) => {
           />
         </div>
       </div>
-      <div> <strong>Which tools did you use for this story ? (Max: 5)</strong></div>
+      <br/>
+      <br/>
+      <br/>
+          <div className="width-200px"> <strong> &nbsp;   Which tools did you use? </strong></div>
       <div className="inside-wrapper" id="Tool-div">
         <div className="width-200px">
           <input
@@ -194,7 +228,9 @@ const ShareYourStory = ({ dispatch, userId }) => {
               setTool1(e.target.value);
             }}
           />
+          <br/>
         </div>
+        
         <div className="width-200px">
           <input
             type="text"
@@ -203,29 +239,34 @@ const ShareYourStory = ({ dispatch, userId }) => {
             }}
           />
         </div>
+        
       </div>
-      <div> <button onClick={addTool}> Add Tool </button></div>
-      <div> <strong>Which materials did you use in this story ? (Max: 5)</strong></div>
-      <div className="inside-wrapper" id="Material-div">
-        <div className="width-200px">
-          <input
-            type="text"
-            onChange={e => {
-              setMaterial1(e.target.value);
-            }}
-          />
-        </div>
-        <div className="width-200px">
-          <input
-            type="text"
-            onChange={e => {
-              setMaterial2(e.target.value);
-            }}
-          />
-        </div>
-      </div>
-      <div> <button onClick={addMaterial}> Add Material </button></div>
-      <div> <strong>Give one or multiple category for this story (Max: 3)</strong></div>
+      <div> <button className="green-text" onClick={addTool}> + Add Tool </button></div>
+      <br/>
+      <div> <strong>&nbsp; How challenging was it? </strong></div>  
+      <div className="inside-wrapper" id="difficulty-level">   
+      <Dropdown options={options} placeholder="Select Level" /><br/>
+      </div><br/>
+      <div> &nbsp;<strong> Story steps </strong></div> 
+      
+     <div className="story-steps" id="story-steps" >  
+     <Draggable
+        axis="x"
+        handle=".handle"
+        defaultPosition={{x: 0, y: 0}}
+        position={null}
+        grid={[25, 25]}
+        scale={1}
+        >
+     <div> 
+     <input type="text" className="description-box"/>
+     <input type="file" className="width-200px"name="image-file" />
+     
+     </div>  
+     </Draggable>
+     </div> <br/>
+     <button className="green-text" onClick={addSteps}> + Add Steps </button><br/>
+      <div> <strong> &nbsp; Give one or multiple category for this story (Max: 3)</strong></div>
       <div className="inside-wrapper">
         <div>
           {/* <input
@@ -244,18 +285,7 @@ const ShareYourStory = ({ dispatch, userId }) => {
           </select>
         </div>
       </div>
-      <div> <strong>Give one or multiple tag/s for this story (Max: 3)</strong></div>
-      <div className="inside-wrapper" id="tag-div">
-        <div className="width-200px">
-          <input
-            type="text"
-            onChange={e => {
-              setTag1(e.target.value);
-            }}
-          />
-        </div>
-      </div>
-      <div> <button onClick={addTag}> Add Tag </button></div>
+      
       {/* <div>
         <form action="/postStoryImage" method="post" enctype="multipart/form-data">
           <input type="file" name="avatar" />
@@ -267,7 +297,7 @@ const ShareYourStory = ({ dispatch, userId }) => {
       </div>
       <div className="align-centre1 inside-wrapper">
         <div>
-          <button onClick={handleSubmit}> Submit </button>{" "}
+          <button className="submit-style" onClick={handleSubmit}> Post </button>{" "}
         </div>
         <div>
           {step1 && (
@@ -287,7 +317,9 @@ const ShareYourStory = ({ dispatch, userId }) => {
           </Switch>
         </div>
       </div>
+      </Paper>
     </div>
+    
   );
 };
 

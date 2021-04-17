@@ -5,6 +5,9 @@ import Carousel from "./pages/Carousel";
 import ShareYourStory from "./pages/ShareYourStory";
 import ToolPosting from "./pages/toolPosting";
 import { connect } from "react-redux";
+import SaveStory from "./pages/SaveStory";
+import UserStory from "./pages/UserStory";
+import UserReservations from "./pages/UserReservations";  
 import {
   BrowserRouter as Router,
   Switch,
@@ -31,11 +34,17 @@ export function App({ dispatch, isLoggedIn }) {
   };
   return (
     <div>
-      <div className="nav-bar">      
+      
+      <div className="nav-bar">  
+      <div className="nav-bar-item">
+      <NavLink to="/" className="nav-bar-button">
+              Home
+            </NavLink>
+        </div>   
         {isLoggedIn && (
           <div className="nav-bar-item">
-            <NavLink to="/shareyourstory" className="nav-bar-button">
-              Share your story
+            <NavLink to="/shareyourstory" className="nav-bar-button"> 
+              + Post story
             </NavLink>
           </div>
         )}
@@ -43,7 +52,7 @@ export function App({ dispatch, isLoggedIn }) {
           <>
           <div className="nav-bar-item">
             <NavLink to="/posttool" className="nav-bar-button">
-              Post a Tool
+              + Post Tool
             </NavLink>
           </div>
           <div className="nav-bar-item">
@@ -61,16 +70,23 @@ export function App({ dispatch, isLoggedIn }) {
             My Reservations
           </NavLink>
         </div>
-        <button onClick={handleLogout}>Logout</button>
+        <button onClick={handleLogout} className="nav-bar-button" >Logout</button>
         </>
         )}
 
         {!isLoggedIn && (
+          <>
           <div className="nav-bar-item"> 
             <NavLink to="/login" className="nav-bar-button">
               Login
             </NavLink>
           </div>
+          <div className="nav-bar-item">
+            <NavLink to="/RegisterUsers" className="nav-bar-button">
+              Sign Up
+            </NavLink>
+            </div>
+            </>
         )}
       </div>
       <div>
@@ -82,7 +98,10 @@ export function App({ dispatch, isLoggedIn }) {
           <Route path="/imageupload" component={ImageUpload} />
           <Route path="/stepsupload" component={StepsUpload} />
           <Route path="/toolimageupload" component={ToolImageUpload} />
-          <Route path="/" component={LandingPage} />
+          <Route path="/savestory" component={SaveStory}/>
+          <Route path="/userstory" component={UserStory}/>
+          <Route path="/userreservations" component={UserReservations} />
+          <Route path="/" component={LandingPage} />        
         </Switch>
       </div>
     </div>

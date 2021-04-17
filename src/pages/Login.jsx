@@ -81,22 +81,20 @@ const CssTextField = withStyles({
 export const Login = ({dispatch, isLoggedIn }) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [incorrectPassword, setIncorrectPassword]=React.useState(false);
 
   const classes = useStyles();
 
-  const handleRegister = () => {
-    console.log("in handle register");
-    ReactDOM.render(<RegisterUsers />, document.getElementById('root'));
-  }
+  
 
   const handleLogin = async () => {
-    console.log("in handle login");
+  
 
     const authData = {
       email,
       password
     };
-    console.log("Berry good", authData);
+ 
 
     await axios
       .post("/api/auth", { authData })
@@ -106,7 +104,7 @@ export const Login = ({dispatch, isLoggedIn }) => {
         console.log("Response.data", response.data);
         // console.log("Length", res.length());
         if (res === "not registered user") {
-          alert("Go make an account first");
+          setIncorrectPassword(true)
         } 
         else {
           let userId = res[0].users_id;
@@ -115,8 +113,8 @@ export const Login = ({dispatch, isLoggedIn }) => {
           console.log("before dispatch", res[0])
           dispatch(setIsLoggedIn(true));
           let firstName = res[0].first_name;
-          let email = "spandya@mail.sfsu.edu"//res[0].email;
-          let password="qwe"//res[0].password";
+          let email = res[0].email;
+          let password=res[0].password;
           dispatch(setFirstName(firstName));
           dispatch(setUserEmail(email));
           dispatch(setAddress(res[0].address));
@@ -141,9 +139,14 @@ export const Login = ({dispatch, isLoggedIn }) => {
     <div className="container">
       <div className="row">
         <div className="col"></div>
+        
         <div className="col-6 wrapper-register-user">
+        {incorrectPassword && (<p >  Incorrect Username or Password</p>)}  <br/>  
+        
           <Card className={classes.card}>
+         
             <CardContent className="card-display">
+           
               <CssTextField
                 className={classes.margin}
                 id="email-input"
@@ -165,15 +168,13 @@ export const Login = ({dispatch, isLoggedIn }) => {
               />
             </CardContent>
             <CardActions>
+           
               <Button size="large" onClick={handleLogin}>
                 Login
               </Button>
+            
             </CardActions>
-            <CardActions>
-              <Button size="large" onClick={handleRegister}>
-                Register a new Account
-              </Button>
-            </CardActions>
+            
             <CardActions>
               <Button size="large">
                 Forgot Password

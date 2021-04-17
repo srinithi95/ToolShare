@@ -7,7 +7,7 @@
 
 .inside-wrapper{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     padding: 5px;
 }
 
@@ -109,7 +109,7 @@ ul.theList{
 }
 
 .blue-bgcolor{
-    background-color: lightgray;
+    background-color:none;
 }
 
 .table-cell1{
@@ -130,4 +130,32 @@ ul.theList{
 
 .red-text{
     color: re;
+}
+.green-text{
+    color:green;
+    border:none;
+    background-color: white;
+    
+}
+.align-left{
+    text-align: left;
+    font-size: 2.5rem;  
+}
+.submit-style{
+   
+    background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 4px 2px;
+  border-radius: 12px;
+
+}
+.description-box{
+    width: 300px;
+    height: 150px;
 }

@@ -6,16 +6,12 @@ import ReactDOM from "react-dom";
 import LandingPage from './LandingPage'
 import App from '../App'
 import Carousel from './Carousel.js'
+import { BrowserRouter as Router } from "react-router-dom";
+import { Provider } from "react-redux";
 
-const StoryDetails = (propStory) => {
+const StoryDetails = (propStory,store) => {
   console.log("in story details component", propStory);
   const [stepArray, setStepArray] = React.useState([]);
-  const handleOnclick = () => {
-    console.log("in handle register");
-    ReactDOM.render(<LandingPage />, document.getElementById('xyz'));
-  }
-  
-
   React.useEffect(() => {
     const storyId = {
       story_id: propStory.story.story_id,
@@ -85,10 +81,7 @@ const StoryDetails = (propStory) => {
             }}
           />
         </div>
-
       </div>
-      {/*
-      <button className="button" onClick={handleOnclick} > Back </button> */}
     </div>
   );
 };
