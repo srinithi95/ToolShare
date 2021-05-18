@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import ToolMap from "./ToolMap";
 
 const UserToolDetails = propTool => {
   const [toolArray, setToolArray] = React.useState([]);
@@ -190,6 +191,10 @@ const UserToolDetails = propTool => {
           </div>
         </div>
       )}
+      <div>
+                <ToolMap/>
+              </div>
+           
     </div>
   );
 };

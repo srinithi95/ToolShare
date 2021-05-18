@@ -31,6 +31,7 @@ var storage = multer.diskStorage({
   destination: function(req, file, cb) {
     cb(null, "../public/images/");
   },
+  
   filename: function(req, file, cb) {
     cb(null, file.originalname);
   }
@@ -46,7 +47,7 @@ var storage1 = multer1.diskStorage({
   }
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({ storage: storage })
 
 
 app.use((req, res, next) => {
@@ -82,15 +83,17 @@ app.post("/api/addsteps", addSteps);
 //submit story endpoint
 app.post("/api/postStory", postStory);
 
+app.post("/api/uploadstepImages",upload.array("file"),function(req,res){
+  console.log("Image Uploaded")
+  res.send("Image uploaded")
+})
+
 //for story image
 app.post("/api/postStoryImage", upload.single("image-file"), function(req, res, next) {
   console.log("in server poststoryimage");
   var fileName=req.file.originalname;
   var storyId = req.body.storyIdInput;
   console.log(storyId);
-
-  
-
   let newPath = "../images/" + fileName;
   console.log("new path is", newPath);
 
@@ -104,9 +107,10 @@ app.post("/api/postStoryImage", upload.single("image-file"), function(req, res, 
   });
 
   // res.send(`You have uploaded this image: <a href="./stepsupload">Upload another image</a>`);
-});
+}); 
 
 //experimental store tools
+
 app.post("/api/postToolImage", upload.single("image-file"), function(req, res, next) {
   console.log("in server postToolimage");
   console.log("body is:", req.body.toolId);
@@ -123,11 +127,30 @@ app.post("/api/postToolImage", upload.single("image-file"), function(req, res, n
   db.con.query(query,[toolId, newPath], (error, result) => {
     console.log(error);
     res.send(`ok`);
-  });
-
-  
+  });  
 });
 
+app.post("/api/getStoryToolDetails",function(req,res){
+  console.log(req.body)
+  let story_id = req.body.storyId.story_id
+  let query=`select tool_name from story_tools where story_id=?`
+  console.log(query)
+  db.con.query(query,[story_id],(error,response)=>{
+    console.log(response)
+    res.send(response)
+
+  })
+});
+app.post("/api/getStoryStepDetails",function(req,res){
+  console.log(req.body)
+  let query=`select step_description,step_image_url from story_steps where story_id= ?`
+  db.con.query(query,[req.body.storyId.story_id],(error,response)=>{
+    console.log(response)
+    res.send(response)
+   
+  })
+
+});
 
 //for steps images
 app.post("/api/postStepsImage", upload.single("step-image"), function (req, res, next){
@@ -142,14 +165,14 @@ app.post("/api/postStepsImage", upload.single("step-image"), function (req, res,
   console.log("----------", fileName, stepNumber, stepTitle, stepDescription);
 
   // var storyId 
-  /*
+  
 
   const con = mysql.createConnection({
     host:"127.0.0.1",
     user:"root",
     password:"",
     database:"tool-share"
-  }) */
+  }) 
 
   // res.send(`You have uploaded this image: <a href="./stepsupload">Upload another step</a>`);
 })

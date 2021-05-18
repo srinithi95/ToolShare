@@ -1,37 +1,69 @@
 import React from "react";
 import axios from "axios";
 import "./storydetails.css";
-import ReactImageMagnify from "react-image-magnify";
+import UserToolDetails from "./UserToolDetails";
 import ReactDOM from "react-dom";
-import LandingPage from './LandingPage'
-import App from '../App'
-import Carousel from './Carousel.js'
-import { BrowserRouter as Router } from "react-router-dom";
-import { Provider } from "react-redux";
+import ReactImageMagnify from "react-image-magnify";
 
-const StoryDetails = (propStory,store) => {
-  console.log("in story details component", propStory);
+
+const StoryDetails = (propStory,store,userId) => {
+  
+  const [storyDetails,setStoryDetails]=React.useState()
   const [stepArray, setStepArray] = React.useState([]);
+  const[toolArray,setToolArray]=React.useState([]);
+  const[changeLayout, setChangeLayout]=React.useState(true)
   React.useEffect(() => {
     const storyId = {
       story_id: propStory.story.story_id,
     };
+      axios.post("/api/getStoryToolDetails",{ storyId })
+       .then((response) =>{
+         console.log(response.data)
+         setToolArray(response.data)
+         
+       })
+      
+       axios.post("/api/getStoryStepDetails",{ storyId })
+         .then((response)=>{
+          setStepArray(response.data)
+          console.log(response.data)
 
-    axios
-      .post("/api/getsteps", { storyId })
-      .then((response) => {
-        console.log(response.data);
-        setStepArray(response.data);
-      });
+         })
+
   }, []);
+  const handleToolOnClick =(tool) =>{
+    ReactDOM.render(
+      <UserToolDetails tool={[tool, userId]} />,
+      document.getElementById("xyz")
+    );
+    
+
+  }
+  const changeLayoutOnClick =() =>{
+    if(changeLayout==true){
+      setChangeLayout(false)
+    }
+    else{
+      setChangeLayout(true)
+
+    }
+    
+  }
+  
 
   return (
     <div className="story-wrapper">
       <div>
         <b>{propStory.story.posting_title}</b>
       </div>
+      <button className="submit-style-new" onClick={changeLayoutOnClick} > Change Layout</button>
       <div>
         <i>{propStory.story.description}</i>
+      </div>
+  <div><b><u>Challenging Level:</u></b> {propStory.story.challenging_level}</div>
+      <br/>
+      <div>
+        <img src={propStory.story.story_image_url} width="300"></img>
       </div>
       <div className="story-inside-wrapper">
         {/* <span className="margin-20px width-100px">Tools required:</span>
@@ -46,20 +78,67 @@ const StoryDetails = (propStory,store) => {
       <div>
         {/* <strong>The steps of the story are:</strong> */}
       </div>
+      <br/>
+      <div>Tools Used</div>
       <div>
-        <ol>
-          {stepArray.map((s) => (
+      <ol>
+          {toolArray.map((t) => (
             <div className="">
               <div className="">
-                <li>{s.text}</li>
+                <li> <span
+                            id="toolspan"
+                            onClick={() => handleToolOnClick(t.tool_name)}
+                            className="margin-right-10px"
+                          >
+                            {t.tool_name}
+                          </span>
+                  
+                  </li>
               </div>
             </div>
           ))}
         </ol>
+        
+      </div>
+      <div>Story Steps</div>
+      <div>
+      
+          { changeLayout && (stepArray.map((sp) => (
+            <div className="">
+              <div className="">
+                <p>{sp.step_description}</p>
+                <img src={sp.step_image_url}></img>
+                
+              </div>
+              <br/>
+            </div>
+          )))}
+          <ol>
+          { !changeLayout && (stepArray.map((sp) => (
+            <div className="">
+              <div className="ordered-display">
+                <li>
+                <p>{sp.step_description}</p>
+                </li>
+                <img  src={sp.step_image_url} ></img>
+               
+                
+              </div>
+              <br/>
+            </div>
+          )))}
+          </ol>
+
+
+        
+      
+
+        
       </div>
       {/* <div>
         <img src={propStory.story.image_url} className="imageframe" />
       </div> */}
+      {/*
       <div className="fluid">
         <div className="fluid__image-container">
           <ReactImageMagnify
@@ -81,9 +160,13 @@ const StoryDetails = (propStory,store) => {
             }}
           />
         </div>
-      </div>
+          </div> */}
     </div>
   );
 };
+const mapStateToProps = (state) => ({
+  userId: state.userReducer.userId,
+
+});
 
 export default StoryDetails;

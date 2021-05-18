@@ -40,12 +40,11 @@ export class ToolMap extends Component {
           lat: 37.733795,
           lng: -122.446747,
         }}
-      >
-        {this.props.coordinates.map(marker => {
-          return(
-            <Marker position={{ lat: marker.lat, lng: marker.lng }} ></Marker>
-          )
-        })}
+      >       
+        
+            <Marker position={{ lat: 37.733795, lng: -122.446747 }} ></Marker>
+          
+       
         {/* <Marker
           onClick={this.onMarkerClick}
           name={"Carpet Vaccum Cleaner"}

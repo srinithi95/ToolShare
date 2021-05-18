@@ -41,3 +41,23 @@
     font-size: 16px;
     width: 100px;
   }
+  .submit-style-new{
+   
+      background-color: #4CAF50;
+      width: 150px;
+    
+  }
+  .ordered-display{
+    display: flex;
+    flex-direction: row;
+  }
+  .step-image{
+    width: 150px;
+    height: 200px;
+  }
+  img{
+    width:  300px;
+    height: 200px;
+    object-fit: cover;
+
+  }

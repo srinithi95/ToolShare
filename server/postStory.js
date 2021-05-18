@@ -3,8 +3,6 @@ const db=require('./db.js')
 const multer = require('multer');
 //const upload = multer({dest: '/server/uploads'});
 
-
-
 const postStory = (req, res) => {
     // con.connect(function(err){
     //     if(err) throw err;
@@ -12,75 +10,51 @@ const postStory = (req, res) => {
     // });
 
     console.log("poststory server, storyData is", req.body.storyData);
+    
+    console.log(req.body.storyData.image_url)
+    
     let postingTitle = req.body.storyData.postingTitle;
     let description = req.body.storyData.description;
     let tools = req.body.storyData.tools;
-    let materials = req.body.storyData.materials;
-    let category = req.body.storyData.category;
-    let tag = req.body.storyData.tag;
+    let category=req.body.storyData.storyCategory;
+    let challengingLevel = req.body.storyData.challengingLevel;
+    let storysteps=req.body.storyData.storysteps;
+    let storyImages=req.body.storyData.storyImages;
+    let image_url=req.body.storyData.image_url;
+    let mainImageURL=req.body.storyData.mainImageURL;
     let userId = req.body.storyData.userId;
+    console.log(req.body.storyData.mainImageURL)
 
     let id = Date.now();
+    console.log(tools.length)
+    console.log(storysteps[1])
 
-    console.log("tools:", tools);
-    console.log("material:", materials);
-    console.log("category:", category);
-
-    // let query = `insert into story (story_id, user_id, description, tool, material, category, tag, posting_title) values (?, ?, ?, ?, ?, ?, ?, ?);`
-    // con.query(query,[id, userId, description, tools, materials, category, tag, postingTitle], (error, result) => {
-    //     console.log(error);
-    //     res.send({successful:true, story_id: id});
-    // });
-    let tool23="";
-    let material23="";
-    let category23="";
-    let tag23="";
-
-    let query = `insert into story (story_id, user_id, description, posting_title) values (?, ?, ?, ?);`
-    db.con.query(query,[id, userId, description, postingTitle], (error, result) => {
+     let query = `insert into story (story_id, user_id, description, category,posting_title,challenging_level,story_image_url )
+      values (?, ?, ?, ?, ?, ?,?);`
+     db.con.query(query,[id, userId, description, category, postingTitle,challengingLevel,mainImageURL],
+         (error, result) => {
         console.log(error);
-    });
+        //res.send({successful:true, story_id: id});
+     });
+     let query1=`insert into story_tools (story_id,tool_name) values (?,?);`
 
-    let tool1 = tools[0];
-    let tool2 = tools[1];
-    let tool3 = tools[2];
-    let tool4 = tools[3];
-    let tool5 = tools[4];
+     for(var i=1;i<tools.length;i++){
+        db.con.query(query1,[id, tools[i]], (error, result) => {
+            console.log(error);
+            //res.send({successful:true, story_id: id});
+         });
 
-    let query1 = `insert into story_tools (story_id, tool1, tool2, tool3, tool4, tool5) values (?, ?, ?, ?, ?, ?);` 
-    db.con.query(query1, [id, tool1, tool2, tool3, tool4, tool5], (error, result) => {
-        console.log(error);
-    });
+     }
 
-    let material1 = materials[0];
-    let material2 = materials[1];
-    let material3 = materials[2];
-    let material4 = materials[3];
-    let material5 = materials[4];
-
-    let query2 = `insert into story_materials (story_id, material1, material2, material3, material4, material5) values (?, ?, ?, ?, ?, ?);`
-    db.con.query(query2, [id, material1, material2, material3, material4, material5], (error, result) => {
-        console.log(error);
-    });
-
-    let category1 = category[0];
-    let category2 = category[1];
-    let category3 = category[2];
-
-    let query3 = `insert into story_category (story_id, category1, category2, category3) values (?, ?, ?, ?);`
-    db.con.query(query3, [id, category1, category2, category3], (error, result) => {
-        console.log(error);
-    });
-
-    let tag1 = tag[0];
-    let tag2 = tag[1];
-    let tag3 = tag[2];
-
-    let query4 = `insert into story_tag (story_id, tag1, tag2, tag3) values (?, ?, ?, ?);`
-    db.con.query(query4, [id, tag1, tag2, tag3], (error, result) => {
-        console.log(error);
-    });
-
+     let query2=`insert into story_steps(step_description,story_id,step_image_url) values (?,?,?)`
+     for(var j=1;j<storysteps.length;j++){
+        db.con.query(query2,[storysteps[j],id, image_url[j]], (error, result) => {
+            console.log(error);
+            
+         });
+     }
+    
+   
     res.send({successful:true, story_id: id});
 }
 

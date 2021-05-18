@@ -7,7 +7,7 @@ const getSteps = (req, res) => {
     let story_id = req.body.storyId.story_id
     
     let query = `select text from story_steps where story_id = ?`;
-    db.concon.query(query, [story_id], (error, result, field) => {
+    db.con.query(query, [story_id], (error, result, field) => {
         if(error)
             console.log(error)
         else{

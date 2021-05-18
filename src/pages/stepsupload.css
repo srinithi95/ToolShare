@@ -13,3 +13,6 @@
 .maindiv-margin{
     margin-left: 10px;
 }
+.multi-select {
+  max-width: 300px;
+}
