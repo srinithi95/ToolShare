@@ -20,6 +20,8 @@ import "./landingpage.css";
 import BookingPage from "./BookingPage";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import ToolMap from "./ToolMap";
+import Paper from '@material-ui/core/Paper';
+import { useCookies } from 'react-cookie';
 
 
 const LandingPage = ({ dispatch, isLoggedIn, firstName, userId }) => {
@@ -33,6 +35,8 @@ const LandingPage = ({ dispatch, isLoggedIn, firstName, userId }) => {
   const [toolActive, setToolActive] = React.useState(false);
   const [mainStoryArray, setMainStoryArray] = React.useState([]);
   const [toolCoordinatesArray, setToolCoordinatesArray] = React.useState([]);
+  const [cookies, setCookie, removeCookie] = useCookies(['userId']);
+
 
   React.useEffect(() => {
     console.log("use effect 1 called");
@@ -52,7 +56,8 @@ const LandingPage = ({ dispatch, isLoggedIn, firstName, userId }) => {
       setToolArray(response.data);
     });
   }, []);
-
+console.log("Test user Id", userId);
+console.log("cookie test", cookies.userId);
   React.useEffect(() => {
     console.log("in address useeffect");
     toolArray.map((t) => {
@@ -72,7 +77,11 @@ const LandingPage = ({ dispatch, isLoggedIn, firstName, userId }) => {
     });
     console.log("&&&&&&&&&&&&&&&", toolCoordinatesArray);
   }, [toolArray]);
+  if(cookies.name){
+    dispatch(setIsLoggedIn(true));
 
+  }
+/*
   if (!isLoggedIn && document.cookie.email!=null ) {
     console.log("the cookie is", document.cookie.email)
     let cookieData = document.cookie.split(";");
@@ -116,7 +125,7 @@ const LandingPage = ({ dispatch, isLoggedIn, firstName, userId }) => {
       
     })
     .then(console.log("Login data inside landing page 2", isLoggedIn));
-  }
+  } */
 
   const handleSearchStory = () => {
     console.log("in handle search story", searchStory);
@@ -172,6 +181,7 @@ const LandingPage = ({ dispatch, isLoggedIn, firstName, userId }) => {
     document.cookie = `email=""`;
     document.cookie = `password=""`;
     dispatch(setIsLoggedIn(false));
+    removeCookie("UserId");
      
   };
 
@@ -336,82 +346,17 @@ const LandingPage = ({ dispatch, isLoggedIn, firstName, userId }) => {
               <div>
                 <ol>
                   {storyArray.map((s) => (
-                    <div className="postingframe">
+                    <Paper elevation={4} width="50%">
+                    <div className="postingframe" onClick={() => handleStoryDetails(s)}>
                       <div className="width500px">
-                        <b>{s.posting_title}</b> by <b>{s.first_name}</b>
-                        <div>
-                          <span>Description:</span> <span>{s.description}</span>
-                        </div>
-                        <div>
-                          <span>Tools:</span>{" "}
-                          <span
-                            id="toolspan"
-                            onClick={() => handleToolOnClick(s.tool1)}
-                            className="margin-right-10px"
-                          >
-                            {s.tool1}
-                          </span>
-                          <span
-                            id="toolspan"
-                            onClick={() => handleToolOnClick(s.tool2)}
-                            className="margin-right-10px"
-                          >
-                            {s.tool2}
-                          </span>
-                          <span
-                            id="toolspan"
-                            onClick={() => handleToolOnClick(s.tool3)}
-                            className="margin-right-10px"
-                          >
-                            {s.tool3}
-                          </span>
-                          <span
-                            id="toolspan"
-                            onClick={() => handleToolOnClick(s.tool4)}
-                            className="margin-right-10px"
-                          >
-                            {s.tool4}
-                          </span>
-                          <span
-                            id="toolspan"
-                            onClick={() => handleToolOnClick(s.tool5)}
-                            className="margin-right-10px"
-                          >
-                            {s.tool5}
-                          </span>
-                        </div>
-                        <div>
-                          <span>Materials:</span> <span>{s.material1} </span>
-                          <span>{s.material2} </span>
-                          <span>{s.material3} </span>
-                          <span>{s.material4} </span>
-                          <span>{s.material5} </span>
-                        </div>
-                        <div>
-                          {/* <span>Category:</span> <span>{s.category}</span> */}
-                        </div>
-                        <div className="bottom-border">
-                          <i>
-                            <span>Tag:</span> <span>{s.tag1}</span>{" "}
-                            <span>{s.tag2}</span> <span>{s.tag3}</span>
-                          </i>
-                          <div>
-                            <button onClick={() => handleStoryDetails(s)}>
-                              View more
-                            </button>
-                            {isLoggedIn && (
-                              <button onClick={() => handleStorySave(s)}>
-                                Save for Later
-                              </button>
-                            )}
-                            {/* <div> {s.image_url} </div> */}
-                          </div>
-                        </div>
+                        <b>{s.posting_title}</b> by <b>{s.first_name}</b><br/>
+                        <img src={s.story_image_url} className="imageframe" />
                       </div>
-                      <div>
-                        <img src={s.image_url} className="imageframe" />
-                      </div>
+                      
                     </div>
+                    </Paper>
+                   
+                    
                   ))}
                 </ol>
               </div>

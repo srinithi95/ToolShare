@@ -9,6 +9,7 @@ import axios from "axios";
 import { setUserId, setIsLoggedIn, setFirstName, setAddress, setCity, setState, setZipCode, setUserEmail, setContactNumber } from '../redux/actions/userActions';
 import { connect } from 'react-redux';
 import { Redirect, NavLink} from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 import {RegisterUsers} from "./RegisterUsers.jsx";
 import ReactDOM from "react-dom";
 
@@ -82,6 +83,7 @@ export const Login = ({dispatch, isLoggedIn }) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [incorrectPassword, setIncorrectPassword]=React.useState(false);
+  const [cookies, setCookie] = useCookies(['userId']);
 
   const classes = useStyles();
 
@@ -107,6 +109,7 @@ export const Login = ({dispatch, isLoggedIn }) => {
           setIncorrectPassword(true)
         } 
         else {
+          //console.log(res[0])
           let userId = res[0].users_id;
           console.log("User id is", userId);
           dispatch(setUserId(userId));
@@ -122,10 +125,9 @@ export const Login = ({dispatch, isLoggedIn }) => {
           dispatch(setCity(res[0].city));
           dispatch(setState(res[0].state));
           dispatch(setZipCode(res[0].zipcode));
+          setCookie('userId',userId ,{path:'/'},{ expires: 0 })
           //var expires = (new Date(Date.now()+ 86400*1000)).toUTCString();
-          var expires=100
-          document.cookie = `email=${email} ; expires=${expires}`;
-          document.cookie = `password=${password}`;
+          
           // alert("Welcome user:", userId)
         }
       });

@@ -23,15 +23,18 @@ import ImageUpload from "./pages/ImageUpload";
 import StepsUpload from "./pages/StepsUpload";
 import ToolImageUpload from "./pages/ToolImageUpload";
 import LandingPage from "./pages/LandingPage";
+import { useCookies } from 'react-cookie';
 
 export function App({ dispatch, isLoggedIn }) {
+  const [cookies, setCookie, removeCookie] = useCookies(['userId']);
   console.log("in app", isLoggedIn);
   const handleLogout = () => {
-    document.cookie = `email=""`;
-    document.cookie = `password=""`;
+    removeCookie('userId')
     dispatch(setIsLoggedIn(false));
-     
   };
+  if(cookies.userId){
+    dispatch(setIsLoggedIn(true));
+  }
   return (
     <div>
       
