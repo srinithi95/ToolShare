@@ -53,7 +53,7 @@ const SaveStory = ({ userId }) => {
             <div>
               {/* `${s.image_url}` */}
               <img
-                src={s.image_url}
+                src={s.story_image_url}
                 className="imageframe"
               />
             </div>

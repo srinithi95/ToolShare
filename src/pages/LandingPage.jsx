@@ -28,7 +28,7 @@ const LandingPage = ({ dispatch, isLoggedIn, firstName, userId }) => {
   console.log("in landing page");
   const [storyArray, setStoryArray] = React.useState([]);
   const [toolArray, setToolArray] = React.useState([]);
-  const [searchStory, setSearchStory] = React.useState();
+  const [searchStory, setSearchStory] = React.useState(" ");
   const [searchTool, setSearchTool] = React.useState();
   const [searchToolCity, setSearchToolCity] = React.useState();
   const [storyActive, setStoryActive] = React.useState(true);
@@ -36,10 +36,12 @@ const LandingPage = ({ dispatch, isLoggedIn, firstName, userId }) => {
   const [mainStoryArray, setMainStoryArray] = React.useState([]);
   const [toolCoordinatesArray, setToolCoordinatesArray] = React.useState([]);
   const [cookies, setCookie, removeCookie] = useCookies(['userId']);
+  
 
 
   React.useEffect(() => {
-    console.log("use effect 1 called");
+    
+   
     axios.get("/api/getStory").then((response) => {
       console.log(response.data);
       setStoryArray(response.data);
@@ -60,6 +62,7 @@ console.log("Test user Id", userId);
 console.log("cookie test", cookies.userId);
   React.useEffect(() => {
     console.log("in address useeffect");
+    console.log("Tools Array",toolArray)
     toolArray.map((t) => {
       let url =
         "https://maps.googleapis.com/maps/api/geocode/json?address=" +
@@ -72,13 +75,15 @@ console.log("cookie test", cookies.userId);
       axios.get(url)
       .then((response) => {
         console.log(response)
-        //toolCoordinatesArray.push(response.data.results[0].geometry.location);
+        toolCoordinatesArray.push(response.data.results[0].geometry.location);
       });
     });
     console.log("&&&&&&&&&&&&&&&", toolCoordinatesArray);
   }, [toolArray]);
   if(cookies.name){
     dispatch(setIsLoggedIn(true));
+    dispatch(setUserId(cookies.userId));
+  dispatch(setFirstName(cookies.name))
 
   }
 /*
@@ -161,7 +166,13 @@ console.log("cookie test", cookies.userId);
     setStoryActive(true);
     setToolActive(false);
   };
-
+  const handleBookingOnClick =(toolname,toolId)=>{
+    const state=  {
+      toolname: toolname,
+      toolId: toolId,
+    }
+ ReactDOM.render(<BookingPage state={state} />, document.getElementById("xyz"));
+  }
   const changeToTool = () => {
     setStoryActive(false);
     setToolActive(true);
@@ -186,23 +197,20 @@ console.log("cookie test", cookies.userId);
   };
 
   const handleStorySave = (s) => {
-    console.log("Story id is", s.story_id);
-    console.log("User id is", userId);
+   console.log("count")
 
     let storyId = s.story_id;
     const saveData = {
       storyId,
       userId,
     };
-
     axios
       .post("/api/saveStory", { saveData })
       .then((response) => {
         console.log(response);
-        alert("Story Saved.");
+        
       });
   };
-  console.log(storyArray);
 
   const handleToolOnClick = (tool) => {
     // const toolData = [tool, userId]
@@ -313,7 +321,8 @@ console.log("cookie test", cookies.userId);
             <b> Tools </b>
           </div>
         </div>
-
+      {isLoggedIn &&  <div><i> <b>&nbsp; &nbsp; &nbsp;Hello {firstName}, Welcome!!</b></i>  </div>}
+      
         {/* Tab contents */}
         <div>
           {storyActive && (
@@ -326,18 +335,18 @@ console.log("cookie test", cookies.userId);
               </div>
 
               {/* Search bar in stories */}
-              <div className="align-centre1 inside-wrapper">
-                <div>
-                  <input
-                    type="text"
-                    name="searchtext" 
-                    value={searchStory}            
-                    onChange={(e) => {
-                      setSearchStory(e.target.value);
-                    }}
-                  />
+             <div className="align-centre1 inside-wrapper"> 
+                <div>    
                 </div>
                 <div>
+                <input
+                    id="search"
+                    type="text"
+                    id="srinith-stpry"           
+                    onBlur={(e)=>{ 
+                      setSearchStory(e.target.value) 
+                    }}
+                  />
                   <button onClick={handleSearchStory}> Find story </button>
                 </div>
               </div>
@@ -346,15 +355,30 @@ console.log("cookie test", cookies.userId);
               <div>
                 <ol>
                   {storyArray.map((s) => (
-                    <Paper elevation={4} width="50%">
+                    <div >
+                    <Paper elevation={4} className="paper" margin ="6">
                     <div className="postingframe" onClick={() => handleStoryDetails(s)}>
                       <div className="width500px">
-                        <b>{s.posting_title}</b> by <b>{s.first_name}</b><br/>
+                        
+                        <b>{s.posting_title}</b> by <b>{s.first_name}    </b><br/>
+                        
+                        <div className="display">
                         <img src={s.story_image_url} className="imageframe" />
-                      </div>
-                      
+                        
+                        <div>{s.description}</div>
+                        <br/>
+                        </div>
+                      </div> 
                     </div>
+                    {isLoggedIn && (
+                              <button onClick={() => handleStorySave(s)}>
+                                Save
+                              </button>
+                            )}
                     </Paper>
+                    <br/>
+                    
+                    </div>
                    
                     
                   ))}
@@ -364,7 +388,9 @@ console.log("cookie test", cookies.userId);
           )}
 
           {toolActive && (
+            
             <div>
+              
               {/* Tools tab */}
               <div className="align-centre1 inside-wrapper">
                 <div className="font-size-20">
@@ -379,8 +405,8 @@ console.log("cookie test", cookies.userId);
                   Toolname
                   <input
                     type="text"
-                    value={searchTool}
-                    onChange={(e) => {
+                    
+                    onBlur={(e) => {
                       setSearchTool(e.target.value);
                     }}
                     className="margin-left-10px"
@@ -403,6 +429,9 @@ console.log("cookie test", cookies.userId);
               </div>
 
               {/* Displaying Map */}
+              <div className="map-container margin-left-top-30px">
+            <ToolMap coordinates={toolCoordinatesArray} />
+          </div>
               
 
               {/* Display all tools using array */}
@@ -420,22 +449,8 @@ console.log("cookie test", cookies.userId);
                             <span>Contact Name:</span>{" "}
                             <span>{t.contact_name}</span>
                           </div>
-                          <div>
-                            <Link
-                              to={{
-                                pathname: "/BookingPage",
-                                state: {
-                                  toolname: t.tool_name,
-                                  toolId: t.tool_id,
-                                },
-                              }}
-                            >
-                              {isLoggedIn && (<div className="round-border-button width-50px">
-                                {" "}
-                                Borrow{" "}
-                              </div>)}
-                            </Link>
-                          </div>
+                          
+                          
                         </div>
                         <div className="flex-wrapper-row">
                           <div className="width-350px">
@@ -463,6 +478,11 @@ console.log("cookie test", cookies.userId);
                             <button onClick={() => handleToolDetails(t)}>
                               View more
                             </button>
+                            {isLoggedIn && (
+                            <div className="round-border-button width-50px" onClick={()=>{handleBookingOnClick(t.tool_name,t.tool_id)}}>
+                                {" "}
+                                Borrow{" "}
+                              </div>)}
                           </div>
                         </div>
                       </div>
@@ -473,9 +493,7 @@ console.log("cookie test", cookies.userId);
                   ))}
                 </ol>
               </div>
-              <div className="map-container margin-left-top-30px">
-                <ToolMap coordinates={toolCoordinatesArray} />
-              </div>
+              
             </div>
           )}
         </div>               
