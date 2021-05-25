@@ -86,12 +86,7 @@ export const Login = ({dispatch, isLoggedIn }) => {
   const [cookies, setCookie] = useCookies(['userId']);
 
   const classes = useStyles();
-
-  
-
   const handleLogin = async () => {
-  
-
     const authData = {
       email,
       password
@@ -125,7 +120,8 @@ export const Login = ({dispatch, isLoggedIn }) => {
           dispatch(setCity(res[0].city));
           dispatch(setState(res[0].state));
           dispatch(setZipCode(res[0].zipcode));
-          setCookie('userId',userId ,{path:'/'},{ expires: 0 })
+          setCookie('userId',userId ,{path:'/' , maxAge: 36000 })
+          setCookie('name',firstName, {path:'/' , maxAge: 36000 })
           //var expires = (new Date(Date.now()+ 86400*1000)).toUTCString();
           
           // alert("Welcome user:", userId)

@@ -6,19 +6,15 @@ import axios from "axios";
 import DateTimePicker from "react-datetime-picker";
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_green.css";
+import { useCookies } from 'react-cookie';
 
-const BookingPage = ({
-  firstName,
-  userId,
-  userEmail,
-  userAddress,
-  userCity,
-  userState,
-  userZipCode,
-  userContactNumber,
-  dispatch,
-}) => {
-  const location = useLocation();
+const BookingPage = (propBooking
+  
+) => {
+
+  console.log("checking props",propBooking)
+
+  //const location = useLocation();
   const [startDateInCalendar, setStartDateInCalendar] = React.useState(
     new Date()
   );
@@ -32,13 +28,24 @@ const BookingPage = ({
   const [endMonth, setEndMonth] = React.useState(new Date());
   const [endHour, setEndHour] = React.useState(new Date());
   const [endMinute, setEndMinute] = React.useState(new Date());
+  const [cookies, setCookie, removeCookie] = useCookies(['userId']);
 
   const [toolReservationData, setToolReservationData] = React.useState([]);
+  const [userDetails, setUserDetails]=React.useState([]);
+  const [firstName,setFirstName]=React.useState("")
+  const [userAddress,setUserAddress]=React.useState("")
+  const [userCity,setUserCity]=React.useState("")
+  const [userState,setUserState]=React.useState("")
+  const [userZipCode,setUserZipCode]=React.useState("")
+  const [userContactNumber,setUserContactNumber]=React.useState("")
+  const [userEmail,setuserEmail]=React.useState("")
+
   
   React.useEffect(async () => {
-    console.log(location.state);
+    const userId=cookies.userId;
+    
     const toolData = {
-      toolId: location.state.toolId,
+      toolId: propBooking.state.toolId,
     }
     await axios
       .post("/api/gettoolreservationdates", { toolData })
@@ -49,7 +56,27 @@ const BookingPage = ({
         toolReservationData.push(response.data);
       });
       console.log("here",toolReservationData);
+  
+   axios
+      .post("/api/getUsers", { userId })
+      .then((response) => {
+        let x = response.data;
+        
+        // setToolReservationData(response.data);
+        setFirstName(response.data[0].first_name)
+        setUserAddress(response.data[0].address)
+        setUserCity(response.data[0].city)
+        setUserState(response.data[0].state)
+        setUserZipCode(response.data[0].zipcode)
+        setUserContactNumber(response.data[0].contact_number)
+        setuserEmail(response.data[0].email)
+       
+      });
+      
   }, []);
+
+
+
 
   const handleStartDate = (date) => {
     console.log("in start date", date);
@@ -83,26 +110,29 @@ const BookingPage = ({
   };
 
   const handleSubmit = () => {
+    const userId=cookies.userId;
     const reservationData = {
       startDateInCalendar,
       endDateInCalendar,
       userId,
-      toolId: location.state.toolId,
+      toolId: propBooking.state.toolId,
     };
-
+ console.log("Inside booking page",userId);
     console.log("*************", reservationData);
     //send tool_id, user_id, start_date, end_date
     axios
-      .post("http://localhost:3000/api/reserveTool", { reservationData })
+      .post("/api/reserveTool", { reservationData })
       .then((response) => {
         console.log(response);
       });
   };
-
+console.log("ou",userDetails)
   return (
     <div id="el">
-      You are trying to reserve <strong>{location.state.toolname}</strong> for
+      You are trying to reserve <strong>{propBooking.state.toolname}</strong> for
       you.
+      
+      
       <div className="margin-top-30px">
         <strong>Your personal details </strong>
       </div>
@@ -126,6 +156,8 @@ const BookingPage = ({
         <div className="width-100px1">Email: </div>
         <div> {userEmail}</div>
       </div>
+      
+
       <div className="margin-top-30px">
         <strong>Other details</strong>
         <div>
@@ -192,15 +224,6 @@ const BookingPage = ({
   );
 };
 
-const mapStateToProps = (state) => ({
-  userId: state.userReducer.userId,
-  userEmail: state.userReducer.userEmail,
-  userAddress: state.userReducer.userAddress,
-  userCity: state.userReducer.userCity,
-  userState: state.userReducer.userState,
-  userZipCode: state.userReducer.userZipCode,
-  userContactNumber: state.userReducer.userContactNumber,
-  firstName: state.userReducer.firstName,
-});
 
-export default connect(mapStateToProps)(BookingPage);
+
+export default BookingPage;

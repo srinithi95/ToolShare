@@ -24,15 +24,20 @@ import StepsUpload from "./pages/StepsUpload";
 import ToolImageUpload from "./pages/ToolImageUpload";
 import LandingPage from "./pages/LandingPage";
 import { useCookies } from 'react-cookie';
+import BookingPage from "./pages/BookingPage";
 
 export function App({ dispatch, isLoggedIn }) {
   const [cookies, setCookie, removeCookie] = useCookies(['userId']);
   console.log("in app", isLoggedIn);
   const handleLogout = () => {
-    removeCookie('userId')
     dispatch(setIsLoggedIn(false));
+    removeCookie('userId')
+    removeCookie('name')
+    window.location.reload();
+    
   };
   if(cookies.userId){
+    console.log("Inside is")
     dispatch(setIsLoggedIn(true));
   }
   return (
@@ -60,7 +65,7 @@ export function App({ dispatch, isLoggedIn }) {
           </div>
           <div className="nav-bar-item">
           <NavLink to="/savestory" className="nav-bar-button">
-            My Saved Story
+           Saved Stories
           </NavLink>
         </div>
         <div className="nav-bar-item">
@@ -70,10 +75,10 @@ export function App({ dispatch, isLoggedIn }) {
         </div>
         <div className="nav-bar-item">
           <NavLink to="/userreservations" className="nav-bar-button">
-            My Reservations
+            Tool Reservations
           </NavLink>
         </div>
-        <button onClick={handleLogout} className="nav-bar-button" >Logout</button>
+        <button onClick={handleLogout} className="nav-bar-button-1" >Logout</button>
         </>
         )}
 
@@ -104,6 +109,7 @@ export function App({ dispatch, isLoggedIn }) {
           <Route path="/savestory" component={SaveStory}/>
           <Route path="/userstory" component={UserStory}/>
           <Route path="/userreservations" component={UserReservations} />
+          <Route path="/BookingPage" component={BookingPage}/>
           <Route path="/" component={LandingPage} />        
         </Switch>
       </div>

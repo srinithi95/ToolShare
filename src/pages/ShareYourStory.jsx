@@ -193,7 +193,6 @@ const setImageUpload =(event) =>{
 }
   
   const addSteps=()=>{
-    
     const maindiv=document.getElementById("story-steps")
     const tempdiv=document.createElement("div");
     tempdiv.id="tempdiv"+storyCount
@@ -311,7 +310,8 @@ const setImageUpload =(event) =>{
       <br/>
       <div> <strong>&nbsp; How challenging was it? </strong></div>  
       <div className="inside-wrapper" id="difficulty-level">   
-      <Dropdown options={options} placeholder="Select Level" onChange={(event)=>{setChallengingLevel(event.value)}}/><br/>
+      <Dropdown options={options} placeholder="Select Level" onChange={(event)=>
+        {setChallengingLevel(event.value)}}/><br/>
       </div><br/>
       <div> &nbsp;<strong> Story steps </strong></div> 
       
