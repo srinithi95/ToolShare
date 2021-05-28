@@ -147,10 +147,17 @@ app.post("/api/getStoryStepDetails",function(req,res){
   db.con.query(query,[req.body.storyId.story_id],(error,response)=>{
     console.log(response)
     res.send(response)
-   
   })
 
 });
+app.post("/api/getUsers",function(req,res){
+  console.log(req.body)
+  let query=`select * from users where users_id=?`
+  db.con.query(query,[req.body.userId],(error,response)=>{
+    console.log(response)
+    res.send(response)
+  })
+})
 
 //for steps images
 app.post("/api/postStepsImage", upload.single("step-image"), function (req, res, next){
