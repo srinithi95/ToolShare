@@ -9,7 +9,7 @@ const getReservations = (req, res) => {
 
   let query = `select t.*,tr.start_date, tr.end_date,ti.image_url from tool t,
    tool_reservation tr, users u, tool_images ti where t.tool_id=tr.tool_id && tr.tool_id=ti.tool_id 
-   && u.users_id=tr.user_id ;`; //  
+   && u.users_id=tr.user_id and tr.user_id=?;`; //  
   db.con.query(query, [user_id], (error, result, field) => {
     if (error) console.log(error);
     else {
