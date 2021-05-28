@@ -1,19 +1,23 @@
 import React from "react";
 import axios from "axios";
 import ToolMap from "./ToolMap";
+import BookingPage from "./BookingPage";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import ReactDOM from "react-dom";
 
-const UserToolDetails = propTool => {
+const UserToolDetails = (propTool,store) => {
   const [toolArray, setToolArray] = React.useState([]);
   const [toolFound, setToolFound] = React.useState(false);
-  const [searchTool, setSearchTool] = React.useState(propTool.tool[0]);
+  const [searchTool, setSearchTool] = React.useState("");
+  const[toolCoordinatesArray, setToolCoordinatesArray]= React.useState([])
 
   React.useEffect(() => {
+    console.log(propTool.tool)
 
-    document.getElementById("tool-searchbar").value = propTool.tool[0];
-
+    document.getElementById("tool-searchbar").value = propTool.tool;
     const data = {
-      toolName: propTool.tool[0],
-      userId: propTool.tool[1]
+      toolName: propTool.tool,
+      
     };
     axios
       .post("/api/usertooldetails", { data })
@@ -21,7 +25,9 @@ const UserToolDetails = propTool => {
         console.log(response);
         if (response.data.length > 0) {
           console.log("tool found");
+          
           setToolArray(response.data);
+          
           setToolFound(true);
         } else {
           console.log("tool not found");
@@ -32,20 +38,48 @@ const UserToolDetails = propTool => {
           // });
         }
       });
-
+     
       if(!toolFound){
         const searchData = {
-          searchTool: propTool.tool[0],
+          searchTool: propTool.tool,
         };
     
         axios
           .post("http://localhost:3000/api/searchTool", { searchData })
           .then(response => {
-            console.log(response.data);
+            console.log("serarch resu",response.data);
             setToolArray(response.data);
           });
       }
   }, []);
+  React.useEffect(() => {
+    console.log("in address useeffect");
+    console.log("Tools Array",toolArray)
+    toolArray.map((t) => {
+      let url =
+        "https://maps.googleapis.com/maps/api/geocode/json?address=" +
+        t.address +
+        t.city +
+        t.state +
+        t.zipcode +
+        "&key=AIzaSyALPCrM1o0G3wqbTLToT2KWvsExLao5vhE";
+      console.log("url is", url);
+      axios.get(url)
+      .then((response) => {
+        console.log(response)
+        toolCoordinatesArray.push(response.data.results[0].geometry.location);
+      });
+    });
+    
+  }, [toolArray]);
+  const handleBookingOnClick =(toolname,toolId)=>{
+    const state=  {
+      toolname: toolname,
+      toolId: toolId,
+    }
+ ReactDOM.render(<BookingPage state={state} />, document.getElementById("xyz"));
+  }
+  
 
   const handleSearchTool = () => {
     console.log("in handle search story");
@@ -61,7 +95,11 @@ const UserToolDetails = propTool => {
         setToolArray(response.data);
       });
   };
+  console.log("Tool array",toolArray)
 
+  
+
+  
   return (
     <div className="story-wrapper">
       {toolFound && (
@@ -103,16 +141,25 @@ const UserToolDetails = propTool => {
                 <div>
                   <img src={t.image_url} className="imageframe" />
                 </div>
+                <div className="round-border-button width-50px" onClick={()=>{handleBookingOnClick(t.tool_name,t.tool_id)}}>
+                                {" "}
+                                Borrow{" "}
+                              </div>
               </div>
             ))}
           </ol>
-        </div>
+        
+        <div>
+        <ToolMap coordinates={toolCoordinatesArray}/>
+      </div>
+      </div>
       )}
 
       {!toolFound && (
         <div>
-          <b>Unforunately, the user didn't put the tool to be shared.</b>
-          <div> You can search for the tools here....</div>
+          <p> Sorry the tool<b> {propTool.tool} </b>  is not posted by anyone yet. </p>
+          <div>You can search for any other tool below </div>
+          
           <div>
             <div className="align-centre1 inside-wrapper">
               <div className="font-size-20">
@@ -169,19 +216,22 @@ const UserToolDetails = propTool => {
                       <span>Number:</span> <span>{t.contact_number}</span>
                     </div>
                   </div>
+                  
                   <div className="bottom-border">
                     <i>
                       <span>Suggested Project: </span>
                       <span>{t.suggested_project}</span>
                     </i>
-                    <div>
-                      {/* <button onClick={() => handleToolDetails(t)}>
-                        {" "}
-                        View more
-                      </button> */}
-                    </div>
+                    
                   </div>
                 </div>
+                <div>
+                 <div className="round-border-button width-50px" onClick={()=>{handleBookingOnClick(t.tool_name,t.tool_id)}}>
+                                {" "}
+                                Borrow{" "}
+                              </div>
+                          
+                          </div>
                 <div>
                   <img src={t.image_url} className="imageframe" />
                 </div>
@@ -191,12 +241,13 @@ const UserToolDetails = propTool => {
           </div>
         </div>
       )}
-      <div>
-                <ToolMap/>
-              </div>
+      
            
     </div>
   );
+  
 };
+
+
 
 export default UserToolDetails;

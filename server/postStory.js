@@ -22,20 +22,22 @@ const postStory = (req, res) => {
     let storyImages=req.body.storyData.storyImages;
     let image_url=req.body.storyData.image_url;
     let mainImageURL=req.body.storyData.mainImageURL;
-    let userId = req.body.storyData.userId;
+    let userId = req.body.storyData.userId; 
     console.log(req.body.storyData.mainImageURL)
 
     let id = Date.now();
     console.log(tools.length)
     console.log(storysteps[1])
 
-     let query = `insert into story (story_id, user_id, description, category,posting_title,challenging_level,story_image_url )
-      values (?, ?, ?, ?, ?, ?,?);`
-     db.con.query(query,[id, userId, description, category, postingTitle,challengingLevel,mainImageURL],
+     let query = `insert into story (story_id, user_id, description,
+        posting_title,challenging_level,story_image_url )
+      values (?, ?, ?, ?, ?,?);`
+     db.con.query(query,[id, userId, description, postingTitle,challengingLevel,mainImageURL],
          (error, result) => {
         console.log(error);
         //res.send({successful:true, story_id: id});
      });
+
      let query1=`insert into story_tools (story_id,tool_name) values (?,?);`
 
      for(var i=1;i<tools.length;i++){
@@ -53,6 +55,14 @@ const postStory = (req, res) => {
             
          });
      }
+     let category1 = category[0];
+    let category2 = category[1];
+    let category3 = category[2];
+
+    let query3 = `insert into story_category (story_id, category1, category2, category3) values (?, ?, ?, ?);`
+    db.con.query(query3, [id, category1, category2, category3], (error, result) => {
+        console.log(error);
+    });
     
    
     res.send({successful:true, story_id: id});

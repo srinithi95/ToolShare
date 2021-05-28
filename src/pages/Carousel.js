@@ -27,6 +27,7 @@ import SaveStory from "./SaveStory";
 import UserStory from "./UserStory";
 import LandingPage from "./LandingPage";
 import UserReservations from "./UserReservations";
+import BookingPage from "./BookingPage";
 
 const Carousel = ({ dispatch, isLoggedIn, firstName, userId }) => {
   console.log("in carousel, logged in is", isLoggedIn);
@@ -131,6 +132,7 @@ const Carousel = ({ dispatch, isLoggedIn, firstName, userId }) => {
               <Route path="/userstory" component={UserStory} />
       { /* <Route path="/landingpage" component={LandingPage} /> */ }
               <Route path="/userreservations" component={UserReservations} />
+              <Route path="/BookingPage" component={BookingPage}/>
             </Switch>
           </div>
         </div>

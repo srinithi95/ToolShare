@@ -5,9 +5,7 @@ import UserToolDetails from "./UserToolDetails";
 import ReactDOM from "react-dom";
 import ReactImageMagnify from "react-image-magnify";
 
-
 const StoryDetails = (propStory,store,userId) => {
-  
   const [storyDetails,setStoryDetails]=React.useState()
   const [stepArray, setStepArray] = React.useState([]);
   const[toolArray,setToolArray]=React.useState([]);
@@ -19,25 +17,21 @@ const StoryDetails = (propStory,store,userId) => {
       axios.post("/api/getStoryToolDetails",{ storyId })
        .then((response) =>{
          console.log(response.data)
-         setToolArray(response.data)
-         
+         setToolArray(response.data) 
        })
       
        axios.post("/api/getStoryStepDetails",{ storyId })
          .then((response)=>{
           setStepArray(response.data)
           console.log(response.data)
-
          })
 
   }, []);
   const handleToolOnClick =(tool) =>{
     ReactDOM.render(
-      <UserToolDetails tool={[tool, userId]} />,
+      <UserToolDetails tool={tool} />,
       document.getElementById("xyz")
     );
-    
-
   }
   const changeLayoutOnClick =() =>{
     if(changeLayout==true){
@@ -45,7 +39,6 @@ const StoryDetails = (propStory,store,userId) => {
     }
     else{
       setChangeLayout(true)
-
     }
     
   }
@@ -57,6 +50,7 @@ const StoryDetails = (propStory,store,userId) => {
         <b>{propStory.story.posting_title}</b>
       </div>
       <button className="submit-style-new" onClick={changeLayoutOnClick} > Change Layout</button>
+      
       <div>
         <i>{propStory.story.description}</i>
       </div>
@@ -92,7 +86,6 @@ const StoryDetails = (propStory,store,userId) => {
                           >
                             {t.tool_name}
                           </span>
-                  
                   </li>
               </div>
             </div>
@@ -106,7 +99,7 @@ const StoryDetails = (propStory,store,userId) => {
           { changeLayout && (stepArray.map((sp) => (
             <div className="">
               <div className="">
-                <p>{sp.step_description}</p>
+                <div >{sp.step_description}</div>
                 <img src={sp.step_image_url}></img>
                 
               </div>
@@ -118,7 +111,7 @@ const StoryDetails = (propStory,store,userId) => {
             <div className="">
               <div className="ordered-display">
                 <li>
-                <p>{sp.step_description}</p>
+                <div className="step-description">{sp.step_description}</div>
                 </li>
                 <img  src={sp.step_image_url} ></img>
                

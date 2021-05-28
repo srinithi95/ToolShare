@@ -62,7 +62,7 @@ const UserStory = ({ userId }) => {
             </div>
             <div>
               {/* `${s.image_url}` */}
-              <img src={s.image_url} className="imageframe" />
+              <img src={s.story_image_url} className="imageframe" />
             </div>
           </div>
         ))}

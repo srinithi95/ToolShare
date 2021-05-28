@@ -5,8 +5,10 @@ const getUserStory = (req, res) => {
     console.log("get user story server");
 
     let userId = req.body.saveData.userId;
+    console.log("is",userId)
+    console.log("test")
     
-    let query = `select s.*,si.image_url  from story s, story_images si where user_id=? && s.story_id=si.story_id`;
+    let query = `select s.*  from story s where user_id=? `;
     db.con.query(query, [userId], (error, result, field) => {
         if(error)
             console.log(error)

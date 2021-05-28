@@ -6,7 +6,27 @@
 /* #toolspan{
     background-color: chartreuse;
 } */
+.display{
+    display: flex;  
+    flex-direction:column;
+    
+    margin-top: "0.2rem";
+    justify-content: center;
+    text-align: justify;
 
+}
+.paper{
+   
+    max-height: 100rem;
+    max-width: fit-content;
+    padding: 15px;
+    margin-left: 2em;
+   justify-content: 2%;
+   
+    
+    
+
+}
 .margin-right-10px{
     margin-right: 10px;
 }
@@ -43,7 +63,7 @@
 }
 
 .map-container{
-    height: 420px;
+    height: 700px;
     width: 200px;
 }
 
@@ -74,4 +94,8 @@
   /*Set the size of the magnifier glass:*/
   width: 100px;
   height: 100px;
+}
+img{
+    width: 250px;
+    height: 200px;
 }
